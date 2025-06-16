@@ -126,201 +126,114 @@
             </div>
             </div>
         
-            <section class="seccion-productos">
-        <div class="head-productos">
-            <h3>Lo más vendido del mes</h3>
-            <div class="tabs botones">
-                <button onclick="mostrar(0)" class="tab-button active">KERATINAS</button>
-                <button onclick="mostrar(1)" class="tab-button">PROTEÍNAS</button>
-                <button onclick="mostrar(2)" class="tab-button">GANADORES DE PESO</button>
-                <button onclick="mostrar(3)" class="tab-button">QUEMADORES DE GRASA</button>
-                <button onclick="mostrar(4)" class="tab-button">BARRAS ENERGÉTICAS</button>
-                <button onclick="mostrar(5)" class="tab-button">VITAMINAS Y OTROS</button>
-            </div>
+                        <div class="head-productos">
+                    <h3>Lo más vendido del mes</h3>
+                    <div class="tabs botones">
+                        <button onclick="mostrar(0)" class="tab-button active">CREATINAS</button>
+                        <button onclick="mostrar(1)" class="tab-button">PROTEÍNAS</button>
+                        <button onclick="mostrar(2)" class="tab-button">GANADORES DE PESO</button>
+                        <button onclick="mostrar(3)" class="tab-button">QUEMADORES DE GRASA</button>
+                        <button onclick="mostrar(4)" class="tab-button">BARRAS ENERGÉTICAS</button>
+                        <button onclick="mostrar(5)" class="tab-button">VITAMINAS Y OTROS</button>
+                    </div>
+                </div>
+                 @extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @if($producto->imagen)
+                <img src="{{ asset('images/productos/' . $producto->imagen) }}" class="img-fluid" alt="{{ $producto->nombre }}">
+            @else
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <span class="text-muted">Sin imagen</span>
+                </div>
+            @endif
         </div>
-
-        <div class="products">
-            {{-- Sección CREATINAS --}}
-            <div class="seccion activo Contenedores_productos" data-categoria="keratinas">
-                @forelse($productosPorCategoria['keratinas'] as $producto)
-                    <div class="product-card">
-                        <img src="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : asset('imagenes/default-product.png') }}" 
-                                alt="{{ $producto->nombre }}">
-                        <div class="brand">{{ $producto->marca }}</div>
-                        <div class="title">{{ $producto->nombre }}</div>
-                        @if($producto->precio_original > $producto->precio_oferta)
-                            <div class="old-price">S/ {{ number_format($producto->precio_original, 2) }}</div>
-                        @endif
-                        <div class="price">S/ {{ number_format($producto->precio_oferta, 2) }}</div>
-                        <div class="quantity-controls">
-                            <button onclick="decrement(this)">-</button>
-                            <input type="text" value="1" size="1" readonly>
-                            <button onclick="increment(this)">+</button>
-                            <button class="add-to-cart" name="button-card">Agregar al carrito</button>
-                        </div>
-                        <div class="stock">
-                            Quedan {{ $producto->stock }} unidades
-                            <div class="stock-bar-container">
-                                <div class="stock-bar" style="width: {{ $producto->porcentaje_stock }}%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <p>No hay productos disponibles en esta categoría.</p>
-                @endforelse
+        
+        <div class="col-md-6">
+            <h1>{{ $producto->nombre }}</h1>
+            
+            <div class="mb-3">
+                <span class="badge badge-secondary">{{ $producto->categoria->nombre }}</span>
+                <span class="badge badge-info">{{ $producto->marca->nombre }}</span>
+                @if($producto->es_delmes)
+                    <span class="badge badge-warning">Del Mes</span>
+                @endif
             </div>
 
-            {{-- Sección PROTEÍNAS --}}
-            <div class="seccion Contenedores_productos" data-categoria="proteinas">
-                @forelse($productosPorCategoria['proteinas'] as $producto)
-                    <div class="product-card">
-                        <img src="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : asset('imagenes/default-product.png') }}" 
-                                alt="{{ $producto->nombre }}">
-                        <div class="brand">{{ $producto->marca }}</div>
-                        <div class="title">{{ $producto->nombre }}</div>
-                        @if($producto->precio_original > $producto->precio_oferta)
-                            <div class="old-price">S/ {{ number_format($producto->precio_original, 2) }}</div>
-                        @endif
-                        <div class="price">S/ {{ number_format($producto->precio_oferta, 2) }}</div>
-                        <div class="quantity-controls">
-                            <button onclick="decrement(this)">-</button>
-                            <input type="text" value="1" size="1" readonly>
-                            <button onclick="increment(this)">+</button>
-                            <button class="add-to-cart" name="button-card">Agregar al carrito</button>
-                        </div>
-                        <div class="stock">
-                            Quedan {{ $producto->stock }} unidades
-                            <div class="stock-bar-container">
-                                <div class="stock-bar" style="width: {{ $producto->porcentaje_stock }}%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <p>No hay productos disponibles en esta categoría.</p>
-                @endforelse
+            <div class="mb-3">
+                <h3 class="text-primary">${{ $producto->precio_nuevo }}</h3>
+                @if($producto->precio_antes)
+                    <del class="text-muted h5">${{ $producto->precio_antes }}</del>
+                    <span class="badge badge-success">
+                        {{ round((($producto->precio_antes - $producto->precio_nuevo) / $producto->precio_antes) * 100) }}% OFF
+                    </span>
+                @endif
             </div>
 
-            {{-- Sección GANADORES DE PESO --}}
-            <div class="seccion Contenedores_productos" data-categoria="ganadores_peso">
-                @forelse($productosPorCategoria['ganadores_peso'] as $producto)
-                    <div class="product-card">
-                        <img src="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : asset('imagenes/default-product.png') }}" 
-                                alt="{{ $producto->nombre }}">
-                        <div class="brand">{{ $producto->marca }}</div>
-                        <div class="title">{{ $producto->nombre }}</div>
-                        @if($producto->precio_original > $producto->precio_oferta)
-                            <div class="old-price">S/ {{ number_format($producto->precio_original, 2) }}</div>
-                        @endif
-                        <div class="price">S/ {{ number_format($producto->precio_oferta, 2) }}</div>
-                        <div class="quantity-controls">
-                            <button onclick="decrement(this)">-</button>
-                            <input type="text" value="1" size="1" readonly>
-                            <button onclick="increment(this)">+</button>
-                            <button class="add-to-cart" name="button-card">Agregar al carrito</button>
-                        </div>
-                        <div class="stock">
-                            Quedan {{ $producto->stock }} unidades
-                            <div class="stock-bar-container">
-                                <div class="stock-bar" style="width: {{ $producto->porcentaje_stock }}%;"></div>
-                            </div>
-                        </div>
+            <div class="mb-3">
+                <h6>Stock disponible: {{ $producto->stock->cantidad }}</h6>
+                <div class="progress mb-2" style="height: 10px;">
+                    <div class="progress-bar bg-dark" role="progressbar" 
+                         style="width: {{ $producto->stock->stock_percentage }}%" 
+                         aria-valuenow="{{ $producto->stock->cantidad }}" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100">
                     </div>
-                @empty
-                    <p>No hay productos disponibles en esta categoría.</p>
-                @endforelse
+                </div>
+                @if($producto->stock->cantidad <= $producto->stock->stock_minimo)
+                    <small class="text-warning">¡Stock bajo!</small>
+                @endif
             </div>
 
-            {{-- Sección QUEMADORES DE GRASA --}}
-            <div class="seccion Contenedores_productos" data-categoria="quemadores_grasa">
-                @forelse($productosPorCategoria['quemadores_grasa'] as $producto)
-                    <div class="product-card">
-                        <img src="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : asset('imagenes/default-product.png') }}" 
-                                alt="{{ $producto->nombre }}">
-                        <div class="brand">{{ $producto->marca }}</div>
-                        <div class="title">{{ $producto->nombre }}</div>
-                        @if($producto->precio_original > $producto->precio_oferta)
-                            <div class="old-price">S/ {{ number_format($producto->precio_original, 2) }}</div>
-                        @endif
-                        <div class="price">S/ {{ number_format($producto->precio_oferta, 2) }}</div>
-                        <div class="quantity-controls">
-                            <button onclick="decrement(this)">-</button>
-                            <input type="text" value="1" size="1" readonly>
-                            <button onclick="increment(this)">+</button>
-                            <button class="add-to-cart" name="button-card">Agregar al carrito</button>
-                        </div>
-                        <div class="stock">
-                            Quedan {{ $producto->stock }} unidades
-                            <div class="stock-bar-container">
-                                <div class="stock-bar" style="width: {{ $producto->porcentaje_stock }}%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <p>No hay productos disponibles en esta categoría.</p>
-                @endforelse
+            <div class="mb-4">
+                <h5>Descripción</h5>
+                <p>{{ $producto->descripcion }}</p>
             </div>
 
-            {{-- Sección BARRAS ENERGÉTICAS --}}
-            <div class="seccion Contenedores_productos" data-categoria="barras_energeticas">
-                @forelse($productosPorCategoria['barras_energeticas'] as $producto)
-                    <div class="product-card">
-                        <img src="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : asset('imagenes/default-product.png') }}" 
-                                alt="{{ $producto->nombre }}">
-                        <div class="brand">{{ $producto->marca }}</div>
-                        <div class="title">{{ $producto->nombre }}</div>
-                        @if($producto->precio_original > $producto->precio_oferta)
-                            <div class="old-price">S/ {{ number_format($producto->precio_original, 2) }}</div>
-                        @endif
-                        <div class="price">S/ {{ number_format($producto->precio_oferta, 2) }}</div>
-                        <div class="quantity-controls">
-                            <button onclick="decrement(this)">-</button>
-                            <input type="text" value="1" size="1" readonly>
-                            <button onclick="increment(this)">+</button>
-                            <button class="add-to-cart" name="button-card">Agregar al carrito</button>
+            @if($producto->stock->cantidad > 0)
+                <form action="{{ route('productos.comprar', $producto) }}" method="POST" class="mb-3">
+                    @csrf
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" 
+                                   min="1" max="{{ $producto->stock->cantidad }}" value="1" required>
                         </div>
-                        <div class="stock">
-                            Quedan {{ $producto->stock }} unidades
-                            <div class="stock-bar-container">
-                                <div class="stock-bar" style="width: {{ $producto->porcentaje_stock }}%;"></div>
-                            </div>
+                        <div class="col-8">
+                            <button type="submit" class="btn btn-primary btn-lg">Comprar Ahora</button>
                         </div>
                     </div>
-                @empty
-                    <p>No hay productos disponibles en esta categoría.</p>
-                @endforelse
+                </form>
+            @else
+                <div class="alert alert-warning">Producto agotado</div>
+            @endif
+
+            <div class="mt-4">
+                <a href="{{ route('productos.edit', $producto) }}" class="btn btn-warning">Editar Producto</a>
+                <form action="{{ route('productos.toggle-delmes', $producto) }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn {{ $producto->es_delmes ? 'btn-success' : 'btn-outline-success' }}">
+                        {{ $producto->es_delmes ? 'Quitar de Del Mes' : 'Agregar a Del Mes' }}
+                    </button>
+                </form>
             </div>
 
-            {{-- Sección VITAMINAS Y OTROS --}}
-            <div class="seccion Contenedores_productos" data-categoria="vitaminas_otros">
-                @forelse($productosPorCategoria['vitaminas_otros'] as $producto)
-                    <div class="product-card">
-                        <img src="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : asset('imagenes/default-product.png') }}" 
-                                alt="{{ $producto->nombre }}">
-                        <div class="brand">{{ $producto->marca }}</div>
-                        <div class="title">{{ $producto->nombre }}</div>
-                        @if($producto->precio_original > $producto->precio_oferta)
-                            <div class="old-price">S/ {{ number_format($producto->precio_original, 2) }}</div>
-                        @endif
-                        <div class="price">S/ {{ number_format($producto->precio_oferta, 2) }}</div>
-                        <div class="quantity-controls">
-                            <button onclick="decrement(this)">-</button>
-                            <input type="text" value="1" size="1" readonly>
-                            <button onclick="increment(this)">+</button>
-                            <button class="add-to-cart" name="button-card">Agregar al carrito</button>
-                        </div>
-                        <div class="stock">
-                            Quedan {{ $producto->stock }} unidades
-                            <div class="stock-bar-container">
-                                <div class="stock-bar" style="width: {{ $producto->porcentaje_stock }}%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <p>No hay productos disponibles en esta categoría.</p>
-                @endforelse
-            </div>
+            @if($producto->ventas_mes > 0)
+                <div class="mt-3">
+                    <small class="text-muted">Ventas este mes: {{ $producto->ventas_mes }}</small>
+                </div>
+            @endif
         </div>
-    </section>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ route('productos.index') }}" class="btn btn-secondary">Volver al listado</a>
+    </div>
+</div>
+@endsection
+                    
                 <section class="nuestra-categoria">
                     <h3>Nuestra Categoria</h3>
                     <div class="botones-categoria">

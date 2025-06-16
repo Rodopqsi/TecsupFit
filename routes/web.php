@@ -21,10 +21,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('/admin', function () {
-    return view('admin');
-})->middleware(['auth', 'verified']);
-
 
 
 Route::get('/productos',function(){
@@ -46,15 +42,8 @@ Route::get('/script.js',function(){
     return view('comentarios');
 });
 
-
-
-Route::get('/', [DelmesController::class, 'index'])->name('products.index');
-Route::prefix('products')->name('products.')->group(function () {
-    Route::post('/', [DelmesController::class, 'store'])->name('store');
-
-    Route::get('/{product}/edit', [DelmesController::class, 'edit'])->name('edit');
-    Route::put('/{product}', [DelmesController::class, 'update'])->name('update');
-    Route::delete('/{product}', [DelmesController::class, 'destroy'])->name('destroy');
-    Route::patch('/{product}/toggle-status', [DelmesController::class, 'toggleStatus'])->name('toggle-status');
-    Route::get('/category/{categoria}', [DelmesController::class, 'getByCategory'])->name('by-category');
-});
+Route::get('/admin', [DelmesController::class, 'admin'])->middleware(['auth', 'verified'])->name('admin');
+Route::resource('productos', ProductoController::class);
+Route::post('productos/{producto}/toggle-delmes', [ProductoController::class, 'toggleDelMes'])->name('productos.toggle-delmes');
+Route::post('productos/{producto}/comprar', [ProductoController::class, 'comprar'])->name('productos.comprar');
+Route::get('delmes', [DelMesController::class, 'index'])->name('delmes.index');

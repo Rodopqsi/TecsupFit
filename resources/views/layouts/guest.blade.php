@@ -21,13 +21,7 @@
                 <h2>ACCEDER</h2>
                 {{ $slot }}
             </div>
-            <div class="Texto_acceder">
-                <h2>
-                    Logueo
-                </h2>
-                <p>¿Ya tienes una cuenta creada? Entonces inicia sesion para poder acceder a TecsupFit </p>
-                <button class="boton_acceder">Acceder</button>
-            </div>
+            
         </div>
             
     </body>
@@ -57,22 +51,5 @@
 height: 37px;
 flex-shrink: 0;
     }
-    .boton_acceder{
-        background-color: #000;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-        margin-bottom: 20px;
-    }
-    .texto_acceder {
-        text-align: center;
-        width: 500px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    
 </style>

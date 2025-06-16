@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productos', function (Blueprint $table) {
+        Schema::create('delmes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->string('marca');
             $table->text('descripcion')->nullable();
-            $table->decimal('precio_original', 8, 2);
-            $table->decimal('precio_oferta', 8, 2);
-            $table->string('imagen')->nullable();
+            $table->decimal('precio_original', 10, 2);
+            $table->decimal('precio_oferta', 10, 2);
             $table->integer('stock')->default(0);
             $table->enum('categoria', [
                 'keratinas', 
@@ -28,9 +27,16 @@ return new class extends Migration
                 'barras_energeticas', 
                 'vitaminas_otros'
             ]);
+            $table->string('imagen')->nullable();
             $table->boolean('activo')->default(true);
             $table->boolean('destacado')->default(false);
             $table->timestamps();
+            
+            // Índices para mejor rendimiento
+            $table->index('categoria');
+            $table->index('activo');
+            $table->index('destacado');
+            $table->index(['categoria', 'activo', 'destacado']);
         });
     }
 
@@ -39,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('productos');
+        Schema::dropIfExists('delmes');
     }
 };
