@@ -223,7 +223,6 @@
             <button onclick="document.getElementById('modalTopMes').style.display='none'" 
                     style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer;">&times;</button>
             {{-- resources/views/productos/index.blade.php --}}
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Toggle sidebar on mobile
