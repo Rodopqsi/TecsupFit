@@ -1,58 +1,223 @@
-<div class="delmes-container">
-    <h2>Productos Del Mes - Top Ventas</h2>
-    
-    @if($productosDelMes->count() > 0)
-        <div class="row">
-            @foreach($productosDelMes as $producto)
-                <div class="col-md-4 mb-4">
-                    <div class="card border-warning">
-                        <div class="card-header bg-warning">
-                            <strong>Del Mes</strong>
-                            <span class="badge badge-primary float-right">{{ $producto->ventas_mes }} ventas</span>
-                        </div>
-                        @if($producto->imagen)
-                            <img src="{{ asset('images/productos/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
-                        @endif
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $producto->nombre }}</h5>
-                            <p class="card-text">{{ Str::limit($producto->descripcion, 80) }}</p>
-                            <p class="card-text">
-                                <strong>${{ $producto->precio_nuevo }}</strong>
-                                @if($producto->precio_antes)
-                                    <del class="text-muted">${{ $producto->precio_antes }}</del>
-                                @endif
-                            </p>
-                            <p class="card-text">
-                                <small class="text-muted">{{ $producto->categoria->nombre }} - {{ $producto->marca->nombre }}</small>
-                            </p>
-                            
-                            {{-- Barra de stock --}}
-                            <div class="mb-2">
-                                <small>Stock: {{ $producto->stock->cantidad }}</small>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-dark" role="progressbar" 
-                                         style="width: {{ $producto->stock->stock_percentage }}%" 
-                                         aria-valuenow="{{ $producto->stock->cantidad }}" 
-                                         aria-valuemin="0" 
-                                         aria-valuemax="100">
-                                    </div>
-                                </div>
-                            </div>
+<h2>Productos del Mes</h2>
 
-                            {{-- Formulario de compra --}}
-                            <form action="{{ route('productos.comprar', $producto) }}" method="POST">
-                                @csrf
-                                <div class="input-group">
-                                    <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" min="1" max="{{ $producto->stock->cantidad }}" required>
-                                    <button type="submit" class="btn btn-primary">Comprar</button>
-                                </div>
-                            </form>
+<!-- Listado de productos del mes -->
+@foreach($productosDelMes as $producto)
+    <div>
+        @if($producto->imagen)
+                        <img src="{{ asset('images/productos/' . $producto->imagen) }}" 
+                                alt="{{ $producto->nombre }}">
+                    @else
+                        <div class="d-flex align-items-center justify-content-center h-100 bg-light">
+                            <i class="fas fa-image fa-3x text-muted"></i>
                         </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    @else
-        <p>No hay productos del mes seleccionados.</p>
-    @endif
-</div>
+        @endif
+        <h3>{{ $producto->nombre }}</h3>
+        <p>{{ $producto->descripcion }}</p>
+        <p>Precio: S/ {{ $producto->precio_nuevo }}</p>
+    </div>
+@endforeach
+
+<style>
+    .head-productos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    padding: 20px;
+    margin-top: 4rem;
+}
+.head-productos h3 {
+    color: #000;
+    font-family: "Crimson Text";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 380px;
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.cuerpo{
+    background-color: white;
+
+}
+.tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    flex-wrap: wrap;
+}
+
+.tabs button {
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    font-family: "Crimson Text";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background-color: transparent;
+    border: none;
+    transition: all 0.3s ease;
+}
+.tabs button:hover {
+    color: #d01619;
+    transition: all 0.3s ease;
+    transform: scale(1.1);
+}
+
+.products{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    
+    justify-content: center;
+
+}
+.botones {
+    margin: 20px 0;
+}
+.botones button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.Contenedores_productos{
+    display: flex;
+    position: relative;
+}
+.seccion {
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 40px;
+    font-size: 1.8rem;
+    color: white;
+    font-weight: bold;
+    display: flex;
+}
+.seccion:not(.activo) {
+    display: none;
+}
+@keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.product-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    width: 286px;
+    height: 430px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+
+}
+
+.product-card img {
+    max-width: 100%;
+    width: 157px;
+    height: 188px;
+    margin-bottom: 10px;
+    align-self: center;
+}
+
+.brand {
+    font-size: 12px;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.title {
+    font-weight: bold;
+    text-align: start;
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
+}
+
+.price {
+    color: #0786A6;
+    font-weight: bold;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 12px;
+    text-align: start;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 3px;
+    height: 33px;
+    background-color: #a10000;
+}
+
+.quantity-controls button {
+    background-color: transparent;
+    color:white;
+    border: none;
+    font-size: 16px;
+}
+.quantity-controls input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+}
+
+.add-to-cart {
+    background: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    align-self: center;
+}
+.seccion-productos {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 20px;
+    
+}
+
+.stock {
+    font-size: 12px;
+    margin-top: 5px;
+    color: #555;
+}
+.stock-bar-container {
+    width: 100%;
+    height: 8px;
+    background: #eee;
+    border-radius: 5px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+.stock-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #000000 60%, #b1b1b1 100%);
+    border-radius: 5px;
+    transition: width 0.4s;
+}
+</style>

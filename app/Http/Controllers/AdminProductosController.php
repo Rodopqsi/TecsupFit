@@ -8,7 +8,7 @@ use App\Models\Marca;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 
-class ProductoController extends Controller
+class AdminProductosController extends Controller
 {
     public function index(Request $request)
     {

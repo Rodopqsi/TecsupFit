@@ -3,9 +3,13 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContadorConteoProductos;
 use App\Http\Controllers\DelmesController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\MarcaController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ContadorConteoProductos::class, 'index']);
 Route::get('/', [ContadorConteoProductos::class, 'index']);
 
 Route::get('/dashboard', function () {
@@ -20,30 +24,37 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-
-
-
-Route::get('/productos',function(){
+Route::get('/productos', function(){
     return view('productos');
 });
-Route::get('/promociones',function(){
+Route::get('/promociones', function(){
     return view('promociones');
 });
-Route::get('/nosotros',function(){
+Route::get('/nosotros', function(){
     return view('nosotros');
 });
-Route::get('/reclamos',function(){
+Route::get('/reclamos', function(){
     return view('reclamos');
 });
-Route::get('/comentarios',function(){
-    return view('comentarios');
-});
-Route::get('/script.js',function(){
+Route::get('/comentarios', function(){
     return view('comentarios');
 });
 
-Route::get('/admin', [DelmesController::class, 'admin'])->middleware(['auth', 'verified'])->name('admin');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::resource('productos', ProductoController::class);
 Route::post('productos/{producto}/toggle-delmes', [ProductoController::class, 'toggleDelMes'])->name('productos.toggle-delmes');
 Route::post('productos/{producto}/comprar', [ProductoController::class, 'comprar'])->name('productos.comprar');
-Route::get('delmes', [DelMesController::class, 'index'])->name('delmes.index');
+
+// Ruta para Del Mes
+Route::resource('delmes', DelMesController::class);
+
+Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+Route::get('/categorias/{categoria}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
+Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update');
+Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+
+// Rutas para Marca
+
+Route::post('/marcas', [MarcaController::class, 'store'])->name('marcas.store');
+Route::put('/marcas/{marca}', [MarcaController::class, 'update'])->name('marcas.update');
+Route::delete('/marcas/{marca}', [MarcaController::class, 'destroy'])->name('marcas.destroy');

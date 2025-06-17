@@ -1,3 +1,6 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+</head>
 <section id="header">
 
             <section id="Contenedor1-nav">
@@ -38,7 +41,7 @@
                 <div class="navegacion">
                     <li>
                         <a href="/" class="inicio<?php echo ($_SERVER['REQUEST_URI'] == '/') ? ' activo' : ''; ?>">Inicio</a>
-                        <a href="/productos" class="productos<?php echo ($_SERVER['REQUEST_URI'] == '/productos') ? ' activo' : ''; ?>">Productos</a>
+                        <a href="" class="productos<?php echo ($_SERVER['REQUEST_URI'] == '/productos') ? ' activo' : ''; ?>">Productos</a>
                         <a href="/promociones" class="promociones<?php echo ($_SERVER['REQUEST_URI'] == '/promociones') ? ' activo' : ''; ?>">Promociones</a>
                         <a href="/nosotros" class="nosotros<?php echo ($_SERVER['REQUEST_URI'] == '/nosotros') ? ' activo' : ''; ?>">Nosotros</a>
             
