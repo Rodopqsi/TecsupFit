@@ -20,21 +20,20 @@
             <div>
                 <h5>LA EMPRESA</h5>
                 <ul>
-                    <li>Catálogo</li>
+                    <a href="/products"><li>Catálogo</li></a>
                     <li>Marcas</li>
-                    <li>Novedades</li>
                     <li>Distribuidores</li>
-                    <li>Blog</li>
+                    <a href="/nosotros"><li>Blog</li></a>
                 </ul>
             </div>
 
             <div>
                 <h5>AYUDA AL CLIENTE</h5>
                 <ul>
-                    <li>Política de envíos</li>
-                    <li>Política de devoluciones</li>
-                    <li>Política de privacidad</li>
-                    <li>Términos y condiciones</li>
+                    <a href="/politicas_de_envio"><li>Política de envíos</li></a>
+                    <a href="/politicas_de_devoluciones"><li>Política de devoluciones</li></a>
+                    <a href="/politicas_privacidad"><li>Política de privacidad</li></a>
+                    <a href="/terminos_y_condiciones"><li>Términos y condiciones</li></a>
                 </ul>
                 <a href="reclamos.html" target="_blank">
                     <svg width="125" height="37" viewBox="0 0 125 37" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -55,7 +54,7 @@
                 <p>Escríbenos<br>contacto@nuttroforma.pe</p>
                 <div class="socials">
                     <a href="#"><i class="ri-facebook-line"></i></a>
-                    <a href="https://wa.me/931723108" target="_blank"><i class="ri-whatsapp-line"></i></a>
+                    <a href="https://wa.me/917364262" target="_blank"><i class="ri-whatsapp-line"></i></a>
                     <a href="#"><i class="ri-tiktok-line"></i></a>
                 </div>
             </div>
@@ -159,7 +158,9 @@ footer .socials a:hover {
 .subscribe-section label {
     font-size: 12px;
 }
-
+.socials{
+    margin-top: 30px;
+}
 .footer-links {
     display: flex;
     gap: 70px;

@@ -108,7 +108,7 @@
               <div class="socials">
                 <a href="#"><i class="ri-facebook-line"></i></a>
                 <!-- puedes poner el numero del telefono aqui como ejemplo hay un numero al azar -->
-                <a href="https://wa.me/975135069" target="_blank"><i class="ri-whatsapp-line"></i></a>
+                <a href="https://wa.me/917364262" target="_blank"><i class="ri-whatsapp-line"></i></a>
                 <a href="#"><i class="ri-tiktok-line"></i></a>
             </div>
             </div>

@@ -41,7 +41,7 @@
                 <div class="navegacion">
                     <li>
                         <a href="/" class="inicio<?php echo ($_SERVER['REQUEST_URI'] == '/') ? ' activo' : ''; ?>">Inicio</a>
-                        <a href="" class="productos<?php echo ($_SERVER['REQUEST_URI'] == '/productos') ? ' activo' : ''; ?>">Productos</a>
+                        <a href="/products" class="productos<?php echo ($_SERVER['REQUEST_URI'] == '/products') ? ' activo' : ''; ?>">Productos</a>
                         <a href="/promociones" class="promociones<?php echo ($_SERVER['REQUEST_URI'] == '/promociones') ? ' activo' : ''; ?>">Promociones</a>
                         <a href="/nosotros" class="nosotros<?php echo ($_SERVER['REQUEST_URI'] == '/nosotros') ? ' activo' : ''; ?>">Nosotros</a>
             
@@ -55,7 +55,7 @@
                     <path d="M19.5 19.5C23.0913 19.5 26 16.5913 26 13C26 9.40875 23.0913 6.5 19.5 6.5C15.9087 6.5 13 9.40875 13 13C13 16.5913 15.9087 19.5 19.5 19.5ZM19.5 22.75C15.1612 22.75 6.5 24.9275 6.5 29.25V32.5H32.5V29.25C32.5 24.9275 23.8388 22.75 19.5 22.75Z" fill="#FFFF"/>
                     </svg>
                     </a>
-                <a href="#" class="carrito"><svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <a href="/carrito" class="carrito"><svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.0854 16.7917C21.0541 16.7917 21.9066 16.2621 22.3458 15.4613L26.97 7.07834C27.0788 6.88255 27.1347 6.66174 27.132 6.43774C27.1293 6.21374 27.0682 5.99433 26.9546 5.80122C26.8411 5.6081 26.6791 5.44797 26.4847 5.33668C26.2903 5.22538 26.0702 5.16678 25.8462 5.16667H6.72954L5.51538 2.58334H1.29163V5.16667H3.87496L8.52496 14.9704L6.78121 18.1221C5.83829 19.8529 7.07829 21.9583 9.04163 21.9583H24.5416V19.375H9.04163L10.4625 16.7917H20.0854ZM7.95663 7.75H23.6504L20.0854 14.2083H11.0179L7.95663 7.75ZM9.04163 23.25C7.62079 23.25 6.47121 24.4125 6.47121 25.8333C6.47121 27.2542 7.62079 28.4167 9.04163 28.4167C10.4625 28.4167 11.625 27.2542 11.625 25.8333C11.625 24.4125 10.4625 23.25 9.04163 23.25ZM21.9583 23.25C20.5375 23.25 19.3879 24.4125 19.3879 25.8333C19.3879 27.2542 20.5375 28.4167 21.9583 28.4167C23.3791 28.4167 24.5416 27.2542 24.5416 25.8333C24.5416 24.4125 23.3791 23.25 21.9583 23.25Z" fill="white"/>
                     </svg>
                     </a>
