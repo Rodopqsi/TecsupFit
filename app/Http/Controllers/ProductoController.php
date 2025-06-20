@@ -107,14 +107,23 @@ class ProductoController extends Controller
             'stock_cantidad' => 'required|integer|min:0',
             'stock_minimo' => 'required|integer|min:0',
         ]);
-
-        // Actualizar stock
-        $producto->stock->update([
-            'cantidad' => $request->stock_cantidad,
-            'stock_minimo' => $request->stock_minimo,
-        ]);
-
-        // Actualizar producto
+        if (!$producto->relationLoaded('stock')) {
+            $producto->load('stock');
+        }
+        if (!$producto->stock) {
+            $stock = Stock::create([
+                'cantidad' => $request->stock_cantidad,
+                'stock_minimo' => $request->stock_minimo,
+            ]);
+            $producto->stock_id = $stock->id;
+            $producto->save();
+            $producto->load('stock');
+        } else {
+            $producto->stock->update([
+                'cantidad' => $request->stock_cantidad,
+                'stock_minimo' => $request->stock_minimo,
+            ]);
+        }
         $producto->fill($request->except(['stock_cantidad', 'stock_minimo']));
 
         if ($request->hasFile('imagen')) {
@@ -136,15 +145,22 @@ class ProductoController extends Controller
 
     public function destroy(Producto $producto)
     {
-        // Eliminar imagen si existe
-        if ($producto->imagen && file_exists(public_path('images/productos/' . $producto->imagen))) {
-            unlink(public_path('images/productos/' . $producto->imagen));
+        try {
+            if (!$producto->relationLoaded('stock')) {
+                $producto->load('stock');
+            }
+            if ($producto->imagen && file_exists(public_path('images/productos/' . $producto->imagen))) {
+                unlink(public_path('images/productos/' . $producto->imagen));
+            }
+            if ($producto->stock) {
+                $producto->stock->delete();
+            }
+            $producto->delete();
+
+            return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('productos.index')->with('error', 'Error al eliminar el producto: ' . $e->getMessage());
         }
-
-        // El stock se eliminará automáticamente por la clave foránea
-        $producto->delete();
-
-        return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente.');
     }
 
     public function toggleDelMes(Producto $producto)
@@ -164,22 +180,31 @@ class ProductoController extends Controller
 
         $cantidad = $request->cantidad;
 
-        if ($producto->stock->cantidad < $cantidad) {
+        // Cargar la relación stock si no está cargada
+        if (!$producto->relationLoaded('stock')) {
+            $producto->load('stock');
+        }
+
+        if (!$producto->stock || $producto->stock->cantidad < $cantidad) {
             return redirect()->back()->with('error', 'Stock insuficiente.');
         }
 
         // Actualizar stock
         $producto->stock->decrement('cantidad', $cantidad);
 
-        // Registrar venta
-        $producto->ventas()->create([
-            'cantidad' => $cantidad,
-            'precio_unitario' => $producto->precio_nuevo,
-            'total' => $producto->precio_nuevo * $cantidad,
-        ]);
+        // Registrar venta (asumiendo que tienes un modelo Venta)
+        if (method_exists($producto, 'ventas')) {
+            $producto->ventas()->create([
+                'cantidad' => $cantidad,
+                'precio_unitario' => $producto->precio_nuevo,
+                'total' => $producto->precio_nuevo * $cantidad,
+            ]);
+        }
 
-        // Incrementar ventas del mes
-        $producto->increment('ventas_mes', $cantidad);
+        // Incrementar ventas del mes si el campo existe
+        if ($producto->getConnection()->getSchemaBuilder()->hasColumn($producto->getTable(), 'ventas_mes')) {
+            $producto->increment('ventas_mes', $cantidad);
+        }
 
         return redirect()->back()->with('success', 'Compra realizada exitosamente.');
     }

@@ -15,4 +15,5 @@ class Marca extends Model
     {
         return $this->hasMany(Producto::class);
     }
+    
 }

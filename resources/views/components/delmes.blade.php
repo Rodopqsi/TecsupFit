@@ -1,6 +1,15 @@
-<h2>Productos del Mes</h2>
-
-<!-- Listado de productos del mes -->
+<h2 class="h">Productos del Mes</h2>
+<a href="{{ route('delmes.index') }}" 
+                class="category-btn {{ !request('categoria') ? 'active' : '' }}">
+                TODOS
+            </a>
+            
+            @foreach($categorias as $categoria)
+            <a href="{{ route('delmes.index', ['categoria' => $categoria->id]) }}" 
+            class="category-btn {{ request('categoria') == $categoria->id ? 'active' : '' }}">
+            {{ strtoupper($categoria->nombre) }}
+        </a>
+        @endforeach
 @foreach($productosDelMes as $producto)
     <div>
         @if($producto->imagen)
@@ -18,6 +27,7 @@
 @endforeach
 
 <style>
+
     .head-productos {
     display: flex;
     flex-direction: column;
@@ -221,3 +231,19 @@
     transition: width 0.4s;
 }
 </style>
+@push('scripts')
+<script>
+    // Toggle advanced filters
+    document.querySelector('.category-btn').addEventListener('click', function() {
+        const advancedFilters = document.getElementById('advancedFilters');
+        advancedFilters.style.display = advancedFilters.style.display === 'none' ? 'block' : 'none';
+    });
+    
+    // Auto-submit search
+    document.querySelector('input[name="search"]').addEventListener('input', function() {
+        setTimeout(() => {
+            document.getElementById('filterForm').submit();
+        }, 500);
+    });
+</script>
+@endpush

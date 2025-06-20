@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Producto;
 use App\Models\Stock;
+use App\Models\delmes;
 use App\Models\Categoria;
 use App\Models\Marca;
 

@@ -1,6 +1,9 @@
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body>
+    <section class="Contenedor_general">
+@extends('components.side_bar')
 <div class="max-w-3xl mx-auto p-6 bg-white rounded shadow">
     <h1 class="text-2xl font-bold mb-6">Crear Producto</h1>
     <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -81,3 +84,5 @@
         </div>
     </form>
 </div>
+</section>
+</body>

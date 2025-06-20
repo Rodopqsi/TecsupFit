@@ -17,7 +17,7 @@ class CategoriaController extends Controller
     }
     public function edit(Categoria $categoria)
     {
-        return view('categorias.edit', compact('categoria'));
+        return view('productos.edit', compact('categoria'));
     }
 
     // Actualizar una categoría
